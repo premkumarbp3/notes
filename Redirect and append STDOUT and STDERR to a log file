@@ -1,0 +1,17 @@
+Redirecting STDOUT to a file is easy:
+
+command > foo.log
+
+Redirecting STDERR to a file is also easy:
+
+command 2> foo.log
+
+Redirecting both STDOUT and STDERR to a file is also fairly straightforward:
+
+command &> foo.log
+
+But what if we want to append to the log rather than truncating it each time we write? This is done for STDOUT by using the >> operator, and for STDERR by using 2>>. Unfortunately &>> does not exist, so how do we append both STDOUT and STDERR?
+
+The solution is to redirect STDERR to STDOUT, and then redirect STDOUT to a file using the append operator:
+
+command 1>> foo.txt 2>&1
