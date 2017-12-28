@@ -1,0 +1,29 @@
+Using iptable’s LOG action certain things in the network tracffic can be logged. In this article I’ll explain how to log each and every minute network traffic using iptables. You can choose which Chain rules and tables should be logged. Information on network traffic is stored in /var/log/messages. This information can be very useful for debugging firewall rules or when you are configuring NAT.
+
+To log actions relating to INPUT chain rule execute the following command as root
+
+iptables -I INPUT 1 -j LOG
+
+make sure to use -I instead of -A because this rule should be executed first before checking the other rules so 1 is used to place the rule first. Similarly you can execute the same command for other chains.
+
+FORWARD chain
+
+iptables -I FORWARD 1 -j LOG
+
+OUTPUT chain
+
+iptables -I OUTPUT 1 -j LOG
+
+To log network activity in the NAT table execute the following commands for tracking activity in their respective chains
+
+iptables -t nat -I PREROUTING 1 -j LOG
+iptables -t nat -I POSTROUTING 1 -j LOG
+iptables -t nat -I OUTPUT 1 -j LOG
+
+These rules are not permanent a restart of the iptables service will flush them, to make them permanent execute
+
+service iptables save
+
+now take a peek inside /var/log/messages to see whats happening. To see it live execute
+
+tail -f /var/log/messages
