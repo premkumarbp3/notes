@@ -1,0 +1,102 @@
+Installing Nodejs on ubuntu 16.04
+
+create repo entry:
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+Install nodejs:
+sudo apt-get install -y nodejs
+
+Install developement tools:
+sudo apt-get install -y build-essential
+
+Check Versions:
+node -v
+npm -v
+
+
+create a test page:
+vim app.js
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World\n');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+
+Now install node js process manager:
+sudo npm install -g pm2
+
+start application by using below command
+Installing Nodejs on ubuntu 16.04
+
+create repo entry
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+install nodejs:
+sudo apt-get install -y nodejs
+
+install developement tools:
+sudo apt-get install -y build-essential
+
+Check Versions:
+node -v
+npm -v
+
+
+create a test page:
+vim app.js
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World\n');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+
+Now install node js process manager:
+sudo npm install -g pm2
+
+start application by using below command
+pm2 start app.js
+
+The startup subcommand generates and configures a startup script to launch PM2 and its managed processes on server boots:
+pm2 startup app.js
+
+The last line of the resulting output will include a command that you must run with superuser privileges:
+Output
+[PM2] Init System found: systemd
+[PM2] You have to run this command as root. Execute the following command:
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u sammy --hp /home/sammy
+
+Run the command that was generated (similar to the highlighted output above, but with your username instead of sammy) to set PM2 up to start on boot (use the command from your own output):
+This will create a systemd unit which runs pm2 for your user on boot. This pm2 instance, in turn, runs hello.js. You can check the status of the systemd unit with systemctl:
+
+systemctl status pm2-sammy
+
+other commands:
+pm2 stop app_name_or_id
+pm2 restart app_name_or_id
+pm2 list
+pm2 info example
+pm2 monit
+
+to test our application now access the service using curl
+curl http://localhost:8080
+
