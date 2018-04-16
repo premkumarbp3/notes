@@ -1,0 +1,7 @@
+MySQL can kill a connection if it exceeds wait_timeout. (Caution, there are various wait timeout setting.)
+
+InnoDB can kill a transaction in the case of a "deadlock". One of competing transactions is killed, the other(s) are allowed to continue.
+
+InnoDB can kill a query if it is waiting too long for a lock. See innodb_lock_wait_timeout, which defaults to 50 seconds.
+
+A user can "kill" a mysql process via the commandline tool 'mysql' and it's kill command.
