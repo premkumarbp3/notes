@@ -1,0 +1,4 @@
+----:lamp installation:-----
+apache2
+mysql-server
+php php-xml php-mbstring php-mysql php-json php-curl php-cli php-common php-mcrypt php-gd libapache2-mod-php php-zip
