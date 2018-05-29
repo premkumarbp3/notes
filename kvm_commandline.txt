@@ -1,0 +1,83 @@
+# virsh list –all                     ⇒ list all VMs 
+# virsh dominfo VMNAME                ⇒ information about a VM.Replace VMNAME with either -> Id | Name | UUID 
+# visrh console VMNAME                ⇒ Take text console of VM, To exit Ctrl+5
+# virsh shutdown VMNAME               ⇒ Shutdown a VM 
+# virsh start VMNAME                  ⇒ Start a VM
+# virsh reboot VMNAME                 ⇒ Reboot a VM
+# virsh destroy VMNAME                ⇒ Poweroff a VM (This may cause data corruption)
+# virsh undefine VMNAME               ⇒ Delete a VM (Delete VM Storage & Snapshot separately)
+# virsh suspend VMNAME                ⇒ Suspend a VM. Consumes system RAM. Disk and network I/O will not occur
+# virsh resume VMNAME                 ⇒ restore a suspended VM
+# virsh create guestVM.xml            ⇒ Create a VM from any existing XML configuration file
+# virsh dumpxml VMNAME > guestVM.xml  ⇒ Take VM Datadump into a XML file. This can be edit & reuse to create new VM.
+# virsh save VMNAME state-file        ⇒ Save a running domain to a state file. It can be restored by using the restore subcommand at a later time.
+# virsh restore VMNAME                ⇒ Restore a domain from a saved state
+# virsh restore state-file            ⇒ Restore a domain from a saved state file.
+# virt-viewer
+
+Resource Management
+
+# virsh setmem VMNAME                  ⇒ Modify allocated memory
+# virsh vcpuinfo VMNAME                ⇒ VM CPU information
+# virsh setvcpus VMNAME count          ⇒ Modify number of virtual CPUs
+# virsh setmaxmem VMNAME size_in_KBs   ⇒ Modify Maximum memory limit
+# virsh setmem VMNAME size_in_KBs      ⇒ Modify Used memory limit
+# virsh autostart VMNAME               ⇒ VM start automatically when host boots
+# virsh autostart --disable VMNAME     ⇒ Disable autostart
+# virsh net-list                       ⇒ List virtual networks
+# virsh net-dumpxml Network_Name       ⇒ view network information for a specific virtual network
+
+Monitoring & Troubleshooting
+
+# virsh version                        ⇒ show version 
+# virsh nodeinfo                       ⇒ node information 
+# visrh dumpxml VMNAME                 ⇒ domain information in XML 
+# virsh edit VMNAME 
+# virt-top                             ⇒ displaying VM Memory & CPU usage 
+# virsh attach-device                  ⇒ Attach device from an XML file 
+# virsh attach-disk                    ⇒ Attach disk device 
+# virsh capabilities                   ⇒ Return capabilities of the hypervisor and drivers. 
+# virsh connect                        ⇒ Connect to the hypervisor. 
+# virsh connect--readonly              ⇒ Connect to the hypervisor in read-only mode. 
+# virsh domid domain_name              ⇒ Converts a domain name to a numeric domain ID. 
+# virsh domname domain_id              ⇒ Converts a numeric domain ID to a domain name. 
+# virsh help 
+
+Backup & Restore
+
+create a new virtual machine by cloning an existing one
+
+# virt-clone --original=VMNAME --name=VMNAME-clone --file=/var/lib/libvirt/images/vmname-clone.qcow2 Clone a VM from a remote host # virt-clone --connect qemu:///remote_system_IP --original VMNAME --name VMNAME-clone --file /var/lib/libvirt/images/vmname-clone.qcow2
+
+VM SNAPSHOTS
+
+Create snapshot but first check domain/VM is using qcow2 disk. Later list all snapshots of a VM/Domain.
+
+# virsh dumpxml VMNAME | grep -i qemu
+# virsh snapshot-create-as --domain VMNAME --name "SNAPSHOTNAME" --description "Project/Purpose of this VM"
+# virsh snapshot-list --domain VMNAME
+
+Restore the VM to snapshot. Make sure, which snapshot to revert by listing down all snapshots of a VM.  Power off the VM and then revert.
+
+# virsh snapshot-revert --domain VMNAME --snapshotname SNAPSHOTNAME  --running
+
+Delete a VM snapshot
+
+# virsh snapshot-delete --domain VMNAME --snapshotname SNAPSHOTNAME
+
+
+
+Examples of the qemu-img command
+
+Create a qcow2 image of 10GB size.
+# qemu-img create -f qcow2 /var/lib/libvirt/images/disk1.img 10G
+Create raw image
+# qemu-img create -f raw /var/lib/libvirt/images/disk1.img 10G
+Covert a qcow2 image to Vmware compatible image
+# qemu-img convert -f qcow2 disk1.img -O vmdk disk1.vmdk 
+Covert a raw image to qcow2 image
+# qemu-img convert -f raw /dev/centos/centOStest -O qcow2 /var/lib/libvirt/images/centOStest.img 
+Displays attributes of a qcow2 image 
+# qemu-img info /var/lib/libvirt/images/disk1.img 
+Increase VM image size by 10G 
+# qemu-img resize vmdisk.img +10G (For RAW device use "-f raw")
