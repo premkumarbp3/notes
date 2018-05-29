@@ -66,6 +66,8 @@ Delete a VM snapshot
 # virsh snapshot-delete --domain VMNAME --snapshotname SNAPSHOTNAME
 
 
+virt-install -n centos2 --memory=1024 --vcpus=1 --os-type linux --location OS/CentOS-7-x86_64-DVD-1708.iso --disk path=~/virtual/cent2.img --network bridge=br0 --os-variant=centos7.0 -x "ks=http://172.17.2.170/anaconda-ks.cfg" --console pty,target_type=serial -x 'console=ttyS0,115200n8 serial'
+
 
 Examples of the qemu-img command
 
