@@ -1,0 +1,44 @@
+Send file not under /var/log directory to centralized log server using syslog:
+Version Under 7:
+Add below lines to /etc/rsyslog.conf file
+####Celery Log######
+$InputFileName /var/log/celery/celery.log
+$InputFileTag celery
+$InputFileStateFile celery
+$InputFileSeverity info
+$InputFileFacility local7
+$InputRunFileMonitor
+
+####Celery Log######
+$InputFileName /var/log/django/myapp.log
+$InputFileTag Django_App
+$InputFileStateFile Django_App
+$InputFileSeverity info
+$InputFileFacility local7
+$InputRunFileMonitor
+
+and also add below line to transfer file from local machine to centralized server.
+local7.* @@graylog:9898
+
+
+if you want this files content not need to write syslog file then change below line on /etc/rsyslog.d/50-default.conf from
+*.*;auth,authpriv.none              -/var/log/syslog
+to
+*.*;auth,authpriv.none,local1.none,local2.none,local3.none,local4.none,local5.none,local6.none,local7.none  -/var/log/syslog
+
+now save the file and restart rsyslog.
+
+
+module(load="imfile" mode="inotify")
+input(type="imfile" File="/var/log/celery/celery.log"
+tag="Celery"
+severity="info"
+facility="local7")
+
+module(load="imfile" mode="inotify")
+input(type="imfile" File="/var/log/django/tendercuts.log"
+tag="Django_TC"
+severity="info"
+facility="local7")
+
+rest of the steps are mentioned above
