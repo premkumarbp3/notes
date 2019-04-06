@@ -1,10 +1,16 @@
+---------Check Version---------
+az --version
+
+---------Configure az cli---------
+Set Default Configuration 
+az configure --defaults location=eastus
+
+unset Default Configuration
+az configure --defaults location=''
+
 ---------login---------
 login using interactive mode:(browser)
 az login
-
-Login Using Non-interactive Mode:
-az login --user <username>  -p <password>
-
 
 ---------Locations---------
 list available locations(aws region):
@@ -16,6 +22,7 @@ az group list
 extra Note:[query only requested info]
   az group list --query '[*].name' -o yaml
 
+sudo apt-get install curl apt-transport-https lsb-release gpg
 create resource group:
 az group create --name <name> --location <location>
 
@@ -39,4 +46,10 @@ Delete Resource Group:
 az lock delete --name <Lock Name> --resource-group <resource-groupname>
 
 ---------Virtual Network---------
-create 
+Create Virtual Net:
+az network vnet create -n <VNet Name> -g <resource-groupname> --address-prefix <10.0.0.0/16>
+
+Create Subnet:
+az network vnet subnet create -n <SubNet Name> -g <resource-groupname> --vent-name <VNet Name> --address-prefixes <10.0.1.0/24>
+
+
