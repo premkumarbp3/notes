@@ -1,12 +1,19 @@
-login :
+---------login---------
+login using interactive mode:(browser)
 az login
 
+Login Using Non-interactive Mode:
+az login --user <username>  -p <password>
+
+
+---------Locations---------
 list available locations(aws region):
 az account list-locations
 
+---------Resource Group---------
 list resource group:
 az group list
-extra Note:
+extra Note:[query only requested info]
   az group list --query '[*].name' -o yaml
 
 create resource group:
@@ -15,7 +22,7 @@ az group create --name <name> --location <location>
 delete resource group:
 az group delete --name <name>
 
-Locks:
+---------Locks---------
 locks are used to prevent accidental deletion, we can set lock on 
    - subscription
    - resource group
@@ -25,5 +32,11 @@ Types of lock:
    - ReadOnly
 
 Lock resource group:
-az lock create --name <Log Name> --lock-type CanNotDelete --resource-group <groupname>
+Create Lock to an Resourc Group:
+az lock create --name <Lock Name> --lock-type CanNotDelete --resource-group <resource-groupname>
 
+Delete Resource Group:
+az lock delete --name <Lock Name> --resource-group <resource-groupname>
+
+---------Virtual Network---------
+create 
