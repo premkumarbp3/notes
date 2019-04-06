@@ -1,0 +1,5 @@
+login :
+az login
+
+list available locations(aws region):
+az account list-locations
