@@ -3,3 +3,27 @@ az login
 
 list available locations(aws region):
 az account list-locations
+
+list resource group:
+az group list
+extra Note:
+  az group list --query '[*].name' -o yaml
+
+create resource group:
+az group create --name <name> --location <location>
+
+delete resource group:
+az group delete --name <name>
+
+Locks:
+locks are used to prevent accidental deletion, we can set lock on 
+   - subscription
+   - resource group
+   - resource
+Types of lock:
+   - CanNotDelete
+   - ReadOnly
+
+Lock resource group:
+az lock create --name <Log Name> --lock-type CanNotDelete --resource-group <groupname>
+
