@@ -1,3 +1,9 @@
+---------Installation---------
+sudo apt-get install curl apt-transport-https lsb-release gpg
+curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor| sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+AZ_REPO=$(lsb_release -cs)
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" |     sudo tee /etc/apt/sources.list.d/azure-cli.list
+
 ---------Check Version---------
 az --version
 
@@ -52,4 +58,30 @@ az network vnet create -n <VNet Name> -g <resource-groupname> --address-prefix <
 Create Subnet:
 az network vnet subnet create -n <SubNet Name> -g <resource-groupname> --vent-name <VNet Name> --address-prefixes <10.0.1.0/24>
 
+List Subnets on vnet:
+az network vnet subnet list --vnet-name <VNet Name> -g <resource-groupname>
 
+Create Application Security Group:
+az network asg create -n <ASGname> -g <resource-groupname>
+
+Add ssh rule to NSG for an ASG:
+az network nsg rule create -n <ruleName> --nsg-name <NSG_Name> --priority <100> -g <resource-groupname> --access <Allow> --description <"ssh Administration"> --direction <Inbound> --protocol <Tcp> --source-address-prefixes '*' --source-port-ranges '*' --destination-asgs <ASG_Name> --destination-port-ranges 22
+
+Addin 80 and 443 in inbound:
+az network nsg rule create -n <ruleName> --nsg-name <NSG_Name> --priority <101> -g <resource-groupname> --access <Allow> --description <"Incoming Web Request"> --direction <Inbound> --protocol <Tcp> --source-address-prefixes '*' --source-port-ranges '*' --destination-asgs <ASG_Name> --destination-port-ranges 80 443
+
+Deny all the inbounds other than 22, 80 and 443:
+az network nsg rule create -n <ruleName> --nsg-name <NSG_Name> --priority <102> -g <resource-groupname> --access <Deny> --description <"Deny All"> --direction <Inbound> --protocol <Tcp> --source-address-prefixes '*' --source-port-ranges '*' --destination-address-prefixes '*' --destination-port-ranges '*'
+
+---------Virtual Machine---------
+List images:
+az vm image list --output table
+
+You can list the images and filter it by using --publisher or –-offer:
+az vm image list --offer UbuntuServer
+
+az vm image list --offer UbuntuServer --all
+az vm image list --offer CentOS --all --output table
+      Note: --all option brings full list.
+      
+az vm create --name <vm name> --resource-group <NSG_Name> --admin-username <admin_user> --authentication-type <all|password|ssh>  --asgs <Space-separated list of ASG_Name> --image  --size Standard_B1s --ssh-key-value /home/prem/.ssh/premocean.pub 
