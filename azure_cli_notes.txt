@@ -84,4 +84,4 @@ az vm image list --offer UbuntuServer --all
 az vm image list --offer CentOS --all --output table
       Note: --all option brings full list.
       
-az vm create --name <vm name> --resource-group <NSG_Name> --admin-username <admin_user> --authentication-type <all|password|ssh>  --asgs <Space-separated list of ASG_Name> --image  --size Standard_B1s --ssh-key-value /home/prem/.ssh/premocean.pub 
+az vm create --name <vm name> --resource-group <NSG_Name> --admin-username <admin_user> --authentication-type <all|password|ssh>  --asgs <Space-separated list of ASG_Name> --image  --size Standard_B1s --ssh-key-value /home/prem/.ssh/test.pub 
