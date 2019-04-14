@@ -1,0 +1,17 @@
+Installation
+Pod
+Services
+Replicaset
+deployment(hpa)
+jobs/cronjobs
+secrets
+configmap
+inggress
+volumes
+Resource limit / 
+RBAC
+monitoring
+logging
+statefullset
+daemonset
+healthcheck
