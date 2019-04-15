@@ -1,0 +1,116 @@
+log in using google account:[this will open a browser tab to login]
+$ gcloud auth login
+
+log in using google account: [it won't launch a new browser tab, but it will give one link, you need to use that link to login]
+$ gcloud auth login --no-launch-browser
+
+login using service account:
+$ gcloud auth activate-service-account --key-file [KEY_FILE]
+
+
+listing accounts:
+$ gcloud auth list
+
+To switch the active account, run
+$ gcloud config set account [ACCOUNT]
+
+Note: where [ACCOUNT] is the full e-mail address of the account.
+
+You can also switch accounts by creating a separate configuration that specifies the different account and switching between
+configurations:
+gcloud config configurations activate [CONFIGURATION]
+
+Revoking credentials for an account
+gcloud auth revoke [ACCOUNT]
+
+Finding your credential files
+gcloud info
+
+----Configuring Cloud SDK for use behind a proxy/firewall----
+gcloud config set proxy/type PROXY_TYPE
+gcloud config set proxy/address PROXY_IP_ADDRESS
+gcloud config set proxy/port PROXY_PORT
+
+PROXY_TYPE: http, http_no_tunnel, socks4, socks5
+PROXY_IP_ADDRESS is the hostname or IP address of where the proxy can be reached
+PROXY_PORT is the port the proxy is running on (e.g. 8080)
+
+For an authenticated proxy, you will need to set your proxy username and password using properties, like so:
+gcloud config set proxy/username USERNAME
+gcloud config set proxy/password PASSWORD
+
+We can also set this username and password using environment variables:
+export CLOUDSDK_PROXY_USERNAME USERNAME
+export CLOUDSDK_PROXY_PASSWORD PASSWORD
+
+
+Managing SDK Configuration:
+What is SDK Configuration:
+A configuration is a named set of SDK properties. The gcloud CLI uses a configuration named default as the initial
+active configuration. These properties are key-value pairs that govern the behavior of the gcloud command-line tool
+and other SDK tools.
+
+Creating a configuration:
+gcloud config configurations create [NAME]
+
+You must activate the new configuration after creation in order to use it.
+Activating a configuration:
+gcloud config configurations activate [NAME]
+
+Execute a command using different configuration:
+gcloud auth list --configuration=config-name
+
+
+Listing configurations
+gcloud config configurations list
+
+Setting configuration properties:
+gcloud config set project [PROJECT]
+gcloud config unset disable_usage_reporting
+
+
+Viewing configuration properties:
+gcloud config configurations describe [NAME]
+
+to view properties in the active configuration:
+gcloud config list
+
+Deleting a configuration:
+gcloud config configurations delete [NAME]
+
+Managing SDK Properties :
+What is a property:
+Properties are settings that govern the behavior of the gcloud CLI and other SDK tools.
+Setting properties:
+gcloud config set project [PROJECT]
+
+ ----Managing SDK Components----
+ What are components:
+ Components are the installable parts of the SDK. A component can be a command-line tool (gcloud, bq and gsutil),
+ a set of gcloud CLI commands at the Alpha or Beta release levels, or a package that contains dependencies used by
+ a tool in the SDK.
+ 
+ Default components:
+ When you install the SDK, the following components are installed by default:
+ gcloud, bq, gsutil and core
+ 
+ Listing components:
+ gcloud components list
+ 
+ Installing components:
+ gcloud components install [COMPONENT-ID]
+
+For example, if you want to install the kubectl command:
+gcloud components install kubectl
+
+Updating components:
+gcloud components update
+
+you can use gcloud components update to revert to the specified version:
+gcloud components update --version VERSION
+
+Removing components:
+gcloud components remove [COMPONENT-ID]
+
+
+
