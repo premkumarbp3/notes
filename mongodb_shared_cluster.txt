@@ -1,0 +1,14 @@
+Before Setup shared cluster we must know the elements.
+They are:
+    mongos                 --> query Router
+    configuration Server   --> it stores meta data about shard.
+    shard                 --> it store the real data, but it splits data and store it into shard replicaset.
+
+this setup needs minimum 11 servers for production.
+it have three replicasets, each have 3 machines.
+1 replica set for configuration server (meta data)
+1 replica set for shard1 (application data)
+1 replica set for shard2 (application data)
+2 servers for mongos
+
+
