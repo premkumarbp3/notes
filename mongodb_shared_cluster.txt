@@ -11,4 +11,17 @@ it have three replicasets, each have 3 machines.
 1 replica set for shard2 (application data)
 2 servers for mongos
 
+Note: place the replica set members in different datacenter for high availability
 
+Installation: OS: Ubuntu 18.04
+
+    install mongodb package on all servers except mongos instances, on mongos instance install mongos package.
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+    echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+    sudo apt-get update
+
+Install mongodb: [on shard and config servers]
+    sudo apt-get install -y mongodb-org
+Install mongos: [on mongos servers]
+    sudo apt-get install -y mongodb-org-mongos
+    
