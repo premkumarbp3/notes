@@ -1,0 +1,73 @@
+suricata installation:
+check available version
+sudo apt show suricata
+
+if its not latest stable version version then First, you will need to add the Suricata PPA to Ubuntu repository:
+sudo add-apt-repository ppa:oisf/suricata-stable
+sudo apt-get update
+
+Then you can install the latest stable Suricata with:
+sudo apt-get install suricata suricata-dbg -y
+
+Configure Suricata:
+Suricata is useless without any rules, if you installed suricat from repository then Suricata IDS rule sets are will available at /etc/suricata/rules/ directory.
+you can list them by using below command.
+ls /etc/suricata/rules/
+
+Now you will need to configure suricata by editing /etc/suricata/suricata.yaml file:
+sudo vim /etc/suricata/suricata.yaml
+Under the var section, you will need to change some important variables such as HOME_NET and EXTERNAL_NET. You can change these variables as per your infrastructure requirements:
+
+HOME_NET: "[172.17.2.102]"
+EXTERNAL_NET: "!$HOME_NET"
+
+Save and close the file when you are finished.
+
+Note: HOME_NET is the IP address or network block of the network you want to defend and 192.168.15.189 is the IP address of Suricata server. Suricata will alert on attacks to the HOME_NET.
+
+Test Suricata
+Once everything is set up, It’s time to perform intrusion detection. Before starting, it is recommended to turn off any packet offload features on the NIC which Suricata is listening on.
+
+You can turn off LRO/GRO on the interface eth0 with the following command:
+sudo ethtool -K eth0 gro off lro off
+
+Next, you will need to create a rule set to test Suricata.
+
+First, create a test.rules file inside /etc/suricata/rules directory.
+sudo vim /etc/suricata/rules/test.rules
+
+Add the following rules:
+alert icmp any any -> $HOME_NET any (msg:"ICMP connection attempt"; sid:1000002; rev:1;)
+alert tcp any any -> $HOME_NET 23 (msg:"TELNET connection attempt"; sid:1000003; rev:1;)
+
+The above rules will generate an alert in /var/log/suricata/fast.log file when someone try to Ping or Telnet to the server.
+
+Next, you will also need to define path of this rule file in suricata.yaml:
+sudo vim /etc/suricata/suricata.yaml
+
+Under the rule-files: section, add the following line:
+- test.rules
+
+Before restarting suricata confirm two parameters are set in /etc/default/suricata file.
+sudo vim /etc/default/suricata
+RUN=yes
+IFACE=eth0
+
+if yes then restart the service. if not set then change the values as show above.
+
+list sources:
+sudo suricata-update list-sources
+
+enable an source:
+sudo suricata-update enable-source <source name>
+example:
+  sudo suricata-update enable-source oisf/trafficid
+  
+disable source:
+sudo suricata-update disable-source oisf/trafficid
+
+update rules:
+sudo suricata-update
+
+Now restart the suricata
+sudo service suricata restart
