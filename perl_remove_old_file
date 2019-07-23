@@ -1,1 +1,3 @@
 perl -e 'unlink grep { -f and -M >= 21 } glob "/usr/share/nginx/html/myapp/templog/*"'
+                      [or]
+find /usr/share/nginx/html/myapp/templog/ -type f -print -delete
