@@ -1,0 +1,25 @@
+Changing Mariadb data directory on Ubuntu 18.04:
+1. stop service:
+sudo systemctl stop mysql
+2. copy the existing database directory to the new location with rsync
+sudo rsync -avzh /var/lib/mysql /database/
+
+3. Once the rsync is complete, rename the current folder with a .bak extension and keep it until we’ve confirmed the move was successful.
+sudo mv /var/lib/mysql /var/lib/mysql.bak
+
+4. Now edit the mysql configuration file to reflect new location:
+sudo vim /etc/mysql/my.cnf
+datadir=/database/mysql
+
+5. Allow AppArmor to let MySQL write to the new directory by creating an alias between the default directory and the new location. To do this, edit the AppArmor alias file
+sudo vim /etc/apparmor.d/tunables/alias
+alias /var/lib/mysql/ -> /database/mysql/,
+
+6. restart AppArmor:
+sudo systemctl restart apparmor
+
+7. To start the mysql server, we will create the minimal directory structure to pass the script's environment check:
+sudo mkdir /var/lib/mysql/mysql -p
+
+8. Now we're ready to start MySQL.
+sudo systemctl start mysql
