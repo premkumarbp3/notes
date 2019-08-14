@@ -1,0 +1,22 @@
+Permanently raise ulimit 'open files' and MySQL 'open_files_limit'
+1. Add soft and hard limits for mysql user on OS Level:
+sudo vim /etc/security/limits.conf
+mysql hard nofile 1024000
+mysql soft nofile 1024000
+mysql soft nproc 1024000
+mysql hard nproc 1024000
+
+2. Set file limit on mysql configuration file.
+sudo vim /etc/my.cnf
+[mysqld]
+open-files-limit = 1024000
+
+3. Set file limit on startup script:
+sudo vim /etc/systemd/system/mariadb.service.d/migrated-from-my.cnf-settings.conf
+LimitNOFILE=1024000
+
+3. Now reload systemctl daemon
+sudo systemctl daemon-reload
+
+4. Now restart mariadb:
+sudo systemctl restart mysql
