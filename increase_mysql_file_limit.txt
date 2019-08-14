@@ -21,3 +21,7 @@ sudo systemctl daemon-reload
 
 4. Now restart mariadb:
 sudo systemctl restart mysql
+
+
+Reference:
+https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/
