@@ -25,3 +25,4 @@ sudo systemctl restart mysql
 
 Reference:
 https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/
+https://blog.werk21.de/en/2017/04/19/set-limit-open-files-mysql-ubuntu-1604-systemd
