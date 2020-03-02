@@ -1,0 +1,10 @@
+wget http://www.ossec.net/files/ossec-wui-0.8.tar.gz
+tar -xf ossec-wui-0.8.tar.gz
+mkdir -p /var/www/html/ossec/tmp/
+mv ossec-wui-0.8/* /var/www/html/ossec/
+chown www-data:www-data /var/www/html/ossec/tmp/
+chmod 666 /var/www/html/ossec/tmp
+
+Make sure the www-data user can access the ossec folder:
+
+usermod -a -G ossec www-data
