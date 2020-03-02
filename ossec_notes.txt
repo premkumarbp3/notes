@@ -8,3 +8,6 @@ chmod 666 /var/www/html/ossec/tmp
 Make sure the www-data user can access the ossec folder:
 
 usermod -a -G ossec www-data
+
+
+Restart apache
