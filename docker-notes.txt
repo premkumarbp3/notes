@@ -1,0 +1,175 @@
+Docker Installation:
+
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+sudo apt-get update
+
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+
+why containerization used:
+what is container:
+
+Techonoligies behind container:
+Namespace: it provides isolation
+Control Groups: controls the resource by a process or group of process.
+
+What is Docker:
+its an tool used to 
+   1. create docker images
+   2. manage container lifecycle
+   3. sharing the image.
+
+
+Containerization tools:
+docker
+containerd
+rocket
+lxc
+
+image: it have your application code and libraries
+conatiner:  its an instance of your image.
+registry: where you store images.
+
+
+
+Create a new container:
+Syntax:
+docker container run <image-name>
+
+Example:
+docker coantiner run alpine
+
+
+Create a container with interactive session terminal:
+docker container run -it --name mycontainer alpine
+
+run a container in deamon mode:
+docker container run -itd --name mycontainer alpine
+
+
+To Access a running container:
+docker exec -it mycontainer
+
+run a container and set hostname:
+docker container run -itd -h mycontainer --name mycontainer alpine
+
+
+to list the runing conatiners:
+docker ps
+or 
+docker container ls
+
+
+To list the the all the conatiners[including stopped containers]
+docker ps -a
+or
+docker container ls -a
+
+
+To stop a running container:
+docker container stop mycontainer
+
+To start a stopped container:
+docker container start mycontainer
+
+
+running a conatiner and exposing a port:
+docker run -d --name mynginx1 -p 8000:80 nginx
+
+
+removing a running container without stopping:
+docker rm -f mynginx1
+
+
+list docker images on your docker host:
+docker image ls
+or
+docker images
+
+
+search images on docker registry:
+docker search mysql
+
+Download image from registry:
+docker pull tomcat
+
+download particular version of an image:
+docker pull tomcat:<tag>
+
+inspect an container:
+docker inspect container-name
+
+inspect an image:
+docker inspect image-name
+
+connect to a container:
+docker attach <container-name>
+
+log out from attached session:
+ctrl+p+q
+
+To run a command on a running container:
+docker exec -it <container-name> <command>
+
+example:
+docker exec -it <container-name> /bin/sh
+
+to remove all the stopped containers:
+docker rm $(docker ps -aq)
+
+Volumes:
+1. volume
+2. bind-mount
+3. tmpfs
+
+list volumes:
+docker volume ls
+
+
+volume creation:
+docker volume create <volume-name>
+
+creating volume at runtime: [type: volume]
+docker volume -itd -v data:/mydata --name <container-name> <image-name>
+
+creating container using bind-mount volume:
+docker volume -itd -v /data/docker-host:/var/www/html --name <container-name> <image-name>
+
+mounting a volume as readonly:
+docker volume -itd -v data:/mydata:ro --name <container-name> <image-name>
+docker volume -itd -v /data/docker-host:/var/www/html:ro --name <container-name> <image-name>
+
+Using mount flag:
+docker volume -itd --mount src=[volume-name],dst=[mount-directory] --name <container-name> <image-name>
+
+Readonly volume:
+docker volume -itd --mount src=[volume-name],dst=[mount-directory],readonly --name <container-name> <image-name>
+
+Note:
+if you use volume type then files inside the containers directory are automatically populated into volumes:
+if you use bind-mount then files inside the docker host machines contents are copied into container mounte path
+
+
+Removing a volume:
+docker volume rm <volume-name>
+
+To remove all unused volumes and free up space:
+docker volume prune
