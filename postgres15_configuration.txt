@@ -1,0 +1,17 @@
+install postgresql using below command:
+   sudo apt install postgresql
+             or
+   brew instal postgresql@15
+
+create application database
+
+   # create database myapplication
+
+create separate user for your application.
+   # create user myappuser with encrypted password 'password';
+   # grant all privileges on database myapplication to myappuser;
+
+in postgres 15 need to do one more step to allow application user to write on application database.
+execute command as super user i.e using postgres user.
+   # \c myapplication
+   # GRANT ALL ON SCHEMA public TO myappuser;
