@@ -1,0 +1,2 @@
+In order to clean all pending builds from the queue, you can run the below script from the script console:
+              Jenkins.instance.queue.clear()
