@@ -1,0 +1,2 @@
+to restart an ecs service.
+aws ecs update-service --cluster :clusterName --service :serviceName --force-new-deployment
