@@ -1,0 +1,5 @@
+1. run git clone with bare
+git clone --bare git@gitlab.myapp.tools:azure/repodso.git
+
+2. run git push with mirror
+git push --mirror git@github.com:myorg/repodso.git
