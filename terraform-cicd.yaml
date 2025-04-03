@@ -1,0 +1,14 @@
+terraform-quality:
+  stage: validate
+  script:
+    - terraform init -backend=false
+    - terraform validate
+    - tflint
+    - checkov -d .
+    - terrascan scan -d .
+    - terraform-docs markdown . > README.md
+    - infracost breakdown --path .
+  artifacts:
+    paths:
+      - README.md
+      - infracost-report.html
